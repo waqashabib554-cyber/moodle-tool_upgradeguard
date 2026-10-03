@@ -424,14 +424,16 @@ the plugin, and that any distributed version has to stay under the same terms.
 
 ## Support
 
+- Publisher and support contact: **Waqas Habib** — [waqashabib554@gmail.com](mailto:waqashabib554@gmail.com).
+- Public issue tracker: <https://github.com/waqashabib554-cyber/moodle-tool_upgradeguard/issues>.
 - **A result looks wrong?** Fill in the `supportemail` setting under *Site
   administration → Plugins → Admin tools → Upgrade Guard*. The dashboard and
   the printable report then show a "Report a wrong result" link that opens a
   pre-filled mail to that address.
 - When you report something, include the Moodle version, the target version,
   the plugin version (the release string on the plugins overview page), the id
-  of the scan and, if possible, the JSON export of that scan
-  (`export.php?id=…&format=json`). That is everything needed to reproduce the
-  result.
-- Security issues: please report them privately to the same address instead of
-  opening a public issue, and allow a couple of working days for an answer.
+  of the scan and a short description. Do not include passwords, access tokens
+  or private site URLs; redact site or user details from exports before sharing.
+- Security issues: use GitHub's private vulnerability reporting at
+  <https://github.com/waqashabib554-cyber/moodle-tool_upgradeguard/security/advisories/new>.
+  Do not report vulnerabilities in a public issue.
