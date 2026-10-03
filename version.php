@@ -31,9 +31,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'tool_upgradeguard';
-$plugin->version   = 2026100300;
+$plugin->version   = 2026100301;
 // Moodle 4.4 (released 22 April 2024). The oldest branch this tool supports, see $plugin->supported.
 $plugin->requires  = 2024042200;
 $plugin->supported = [404, 502];
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '0.9.3';
+$plugin->release   = '0.9.4';

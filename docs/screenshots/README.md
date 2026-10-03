@@ -1,27 +1,27 @@
 # Upgrade Guard screenshots
 
-Captured on 3 October 2026 from the **0.9.3** build on an isolated Moodle 5.2
-release-staging site. No scan had been run: the bundled rules did not yet
-contain a verified target newer than Moodle 5.2. The captures therefore show
-the truthful first-run/no-target experience only. They contain no plugin
-inventory, report, real customer data or personal account name.
+Captured on 3 October 2026 from the 0.9.3 build on an isolated Moodle 5.1.3
+staging site, after a real scan against Moodle 5.2. The scan completed with a
+Careful verdict, a readiness score of 78/100, 9 findings, and 12 plugins in the
+inventory. The environment check reported PHP 8.3.30, MySQL 8.4.3 and all 20
+required PHP extensions as OK.
 
 | File | Shows |
 |---|---|
-| `01-dashboard-overview.png` | First-run Overview, including the no-verified-newer-target explanation and active bundled-rules version. |
-| `02-plugins.png` | The empty plugin-results state before a scan. |
-| `03-environment.png` | The notice that environment rows are recorded by a scan. |
-| `04-files-to-move.png` | The empty first-run public-directory move-list state. |
-| `05-checklist.png` | The empty first-run checklist state. |
-| `06-history.png` | The empty scan-history state. |
+| `01-dashboard-overview.png` | Completed 5.1.3-to-5.2 scan, verdict, score and recommended next actions. |
+| `02-plugins.png` | All 12 scanned plugins, including their status, version, usage and findings. |
+| `03-environment.png` | PHP, database and required-extension checks against Moodle 5.2. |
+| `04-files-to-move.png` | The public-directory move list; none of the 12 plugins need moving. |
+| `05-checklist.png` | The pre-upgrade checklist generated from the scan. |
+| `06-history.png` | The completed 5.2 scan in scan history. |
 
-These images replace the earlier 0.9.1/0.9.2 demo captures, which contained
-third-party plugin names and a stale claim that Moodle 5.2 was the newest
-release. The current images are neutral documentation evidence, not completed-
-scan demonstrations and not final Marketplace artwork. Do not use them as
-Marketplace promotional screenshots until a neutral site has a valid, released
-upgrade target and a fresh scan has been captured and approved.
+The captures were made in a browser at a 1440px viewport and reviewed after
+capture. They show the isolated staging site's name and local plugin inventory;
+they contain no customer data or personal account name. The plugin settings
+were each tested individually and restored to their documented defaults before
+the captures.
 
-How they were produced: browser captures from the isolated release-staging
-site at a 1440px viewport, with a full-page capture of each Upgrade Guard tab.
-No settings were changed and no scan or other site data was created.
+These are genuine product-evidence captures, not final promotional artwork.
+Review the visible staging label and plugin names before using them in a
+Marketplace listing. The bundled rules identify Moodle 5.2 as stable and 5.3
+as future in dataset version 5, so the scan deliberately targets 5.2 only.

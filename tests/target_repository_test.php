@@ -125,6 +125,19 @@ final class target_repository_test extends advanced_testcase {
     }
 
     /**
+     * Dotted Moodle version strings survive request cleaning and match the dataset.
+     *
+     * @covers \tool_upgradeguard\local\target_repository::get_target
+     * @covers \tool_upgradeguard\local\target_repository::is_upgrade_target
+     */
+    public function test_dotted_version_survives_request_cleaning(): void {
+        $version = clean_param('5.2', PARAM_RAW_TRIMMED);
+
+        $this->assertSame('5.2', $version);
+        $this->assertTrue((new target_repository())->is_upgrade_target($version, 501));
+    }
+
+    /**
      * The release status of every shipped target is the one moodledev reports.
      *
      * The dataset is a set of claims about other people's software, so the

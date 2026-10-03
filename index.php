@@ -62,7 +62,9 @@ if ($action === 'startscan') {
     require_sesskey();
 
     $targetrepository = new target_repository();
-    $target = $targetrepository->get_target(required_param('targetversion', PARAM_ALPHANUMEXT));
+    // Moodle's alphanumeric parameter type strips the dot from versions such
+    // as "5.2". The exact repository lookup below is the allowlist check.
+    $target = $targetrepository->get_target(required_param('targetversion', PARAM_RAW_TRIMMED));
     $currentbranch = (int) ($CFG->branch ?? 0);
     if ($target === null || !$targetrepository->is_upgrade_target($target->version, $currentbranch)) {
         redirect($dashboardurl, get_string('error_targetnotupgrade', 'tool_upgradeguard'), null, notification::NOTIFY_ERROR);

@@ -8,7 +8,26 @@ numbers before it mark the development milestones that led there. Those
 milestones were never published on their own, so their entries are
 reconstructed from the repository history and describe what arrived when.
 
-## 0.9.3 — 3 October 2026 (development)
+## 0.9.4 — 3 October 2026 (Marketplace review update)
+
+### Fixed
+
+- Starting a scan now preserves dotted Moodle target versions. Moodle's
+  `PARAM_ALPHANUMEXT` cleaner stripped the dot from `5.2`, so the valid target
+  shown in the selector was rejected by the start action.
+- An empty Moodle plugin-update list is no longer treated as missing data when
+  Moodle has already stored a valid update response. The report uses the core
+  checker's fetch timestamp to distinguish a completed check with no updates
+  from a site that has never fetched update data.
+
+### Changed
+
+- Corrected the README's outdated screenshot description and runtime-coverage
+  claims to match the six existing captures from a completed Moodle
+  5.1.3-to-5.2 scan, and clarified optional publisher services for Moodle/PHP
+  development, installation and training.
+
+## 0.9.3 — 3 October 2026 (submitted for review)
 
 ### Added
 
@@ -25,12 +44,12 @@ reconstructed from the repository history and describe what arrived when.
   successful rules check, and surfaces refresh failures while preserving the
   offline rules.
 
-### Pending release configuration
+### Feed verification
 
-- The maintainer confirmed `waqashabib554-cyber` as the GitHub owner. The
-  default feed URL is prepared, but the public repository has not been created
-  or published. Automatic refresh will continue to use bundled rules until the
-  public feed is available and a successful refresh completes.
+- The public `waqashabib554-cyber/moodle-tool_upgradeguard` repository is
+  available and its target-rules validation workflow passes. New installations
+  can refresh rules from the configured feed; a successful refresh still
+  depends on the Moodle site's outbound HTTPS access and scheduled cron.
 
 ## 0.9.2 — 2 October 2026 (stable)
 

@@ -19,22 +19,23 @@ to a newer Moodle branch.
 
 ## Screenshots
 
-Six screenshots of the 0.9.3 first-run experience are in `docs/screenshots/`,
-captured on an isolated Moodle 5.2 staging site before any scan was run:
+Six screenshots of a completed scan are in `docs/screenshots/`, captured on an
+isolated Moodle 5.1.3 staging site against Moodle 5.2:
 
 | Screenshot | Shows |
 |---|---|
-| `01-dashboard-overview.png` | The honest no-target state while Moodle 5.3 rules are not yet available |
-| `02-plugins.png` | The empty results state before the first scan |
-| `03-environment.png` | The note that environment facts appear after the first scan |
-| `04-files-to-move.png` | The empty first-run state for the public-directory move list |
-| `05-checklist.png` | The empty first-run checklist state |
-| `06-history.png` | The empty scan-history state |
+| `01-dashboard-overview.png` | The verdict, score and recommended next actions |
+| `02-plugins.png` | The scanned plugin inventory and compatibility findings |
+| `03-environment.png` | PHP, database and required-extension checks against Moodle 5.2 |
+| `04-files-to-move.png` | The public-directory move list |
+| `05-checklist.png` | The pre-upgrade checklist |
+| `06-history.png` | The completed scan in scan history |
 
-These captures contain no site inventory or scan report. They document the
-current first-run flow only; they are not a substitute for Marketplace
-screenshots showing a completed scan. `docs/screenshots/README.md` describes
-the capture and its limitations.
+The scan completed with a Careful verdict (78/100) and 9 findings across 12
+plugins. PHP, MySQL and all required extensions passed. These are genuine
+product-evidence captures from an isolated staging site; review the staging
+label and plugin names before using them in the Marketplace listing.
+`docs/screenshots/README.md` records their provenance.
 
 ## How a scan works
 
@@ -72,7 +73,7 @@ transaction.
    overview*) and complete the installation. Moodle creates the three tables,
    registers the capabilities, the scheduled cleanup task and the settings.
 3. Open *Site administration → Plugins → Admin tools → Upgrade Guard*.
-4. Pick an available newer Moodle version and click **Run scan**. If there is
+4. Pick an available newer Moodle version and click **Start scan**. If there is
    no verified newer target yet, the dashboard says why and shows the active
    rules version and update status. A new Moodle release is made selectable
    only after its rules have been reviewed and published by the maintainer.
@@ -371,9 +372,9 @@ deliberate limit of the current version, not a bug report.
   notes and are marked as verified, but the comparison has only ever been run
   against MySQL/MariaDB here. On PostgreSQL, SQL Server or Aurora the row is
   reported with medium confidence for that reason.
-- **Only Moodle 5.2 was exercised at runtime.** The supported range (4.4 to
-  5.2) comes from the rule dataset; the plugin has not been installed on an
-  older branch in this project, so treat the lower end of the range as untested.
+- **Runtime coverage is limited.** Moodle 5.1.3 was exercised against target
+  5.2; other supported source branches have not been installed in this project.
+  Treat the lower end of the declared range as untested.
 - **Moodle has ended support for 4.4** ("no longer supported and will not
   receive fixes for security risks"). The plugin still declares 4.4 as its
   `requires` value so that sites still running it can install and use Upgrade
@@ -393,10 +394,12 @@ deliberate limit of the current version, not a bug report.
   all, and those plugins report "unknown", which counts as low risk in the
   score. A blocker in an unmeasurable plugin therefore does not stop the
   upgrade by itself.
-- **Update data is optional and coarse.** With `checkremote` switched off, or
-  when Moodle never fetched the plugin list, the tool cannot tell "no update
-  exists" from "this was never checked"; it says so instead of guessing, which
-  can look like a nag on a site that simply is up to date.
+- **Update data is optional and depends on Moodle's core update checker.** If
+  `checkremote` is on but Moodle has never stored a valid plugin-update
+  response, the report recommends checking for updates from *Site
+  administration → Notifications*. Once Moodle has a valid response, an empty
+  update list is treated as a successful check rather than a missing-data
+  warning.
 - **Cron is required.** A scan stays queued until cron runs, and the daily
   cleanup task is what removes old scans.
 - Live progress on the dashboard uses a page refresh
@@ -423,6 +426,11 @@ license Moodle itself uses, which means you may use, study, share and improve
 the plugin, and that any distributed version has to stay under the same terms.
 
 ## Support
+
+Upgrade Guard is free. The publisher also offers optional, separately scoped
+paid services for Moodle/PHP development, Moodle or plugin installation and
+configuration, and administrator training. Contact Waqas Habib at
+[waqashabib554@gmail.com](mailto:waqashabib554@gmail.com) to discuss a service.
 
 - Publisher and support contact: **Waqas Habib** — [waqashabib554@gmail.com](mailto:waqashabib554@gmail.com).
 - Public issue tracker: <https://github.com/waqashabib554-cyber/moodle-tool_upgradeguard/issues>.

@@ -54,13 +54,12 @@ final class update_checker {
      * Whether a scan may treat the update information as available.
      *
      * A switched off remote check is not missing information: the administrator
-     * turned it off on purpose, so the report must not tell them to click
-     * "Check for updates now".
+     * turned it off on purpose, so the report must not tell them to fetch it.
      *
-     * When the check is on, an empty result set is reported as missing data.
-     * That is a limitation of the core API, not a claim about the site: core's
-     * available_updates() answers null both for "nothing newer exists" and for
-     * "no data was ever fetched", so the two cannot be told apart here.
+     * When the check is on, an empty result set is considered available once
+     * Moodle has stored a valid response from its plugin update service. Core's
+     * available_updates() alone cannot distinguish "nothing newer exists" from
+     * "no data was ever fetched", so use the core checker's fetch timestamp too.
      *
      * @param array $updates Updates that were collected for this scan.
      * @return bool
@@ -70,7 +69,11 @@ final class update_checker {
             return true;
         }
 
-        return !empty($updates);
+        if (!empty($updates)) {
+            return true;
+        }
+
+        return \core\update\checker::instance()->get_last_timefetched() !== null;
     }
 
     /**

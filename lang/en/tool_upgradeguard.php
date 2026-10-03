@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['action_check_plugin_page'] = 'Open the plugin page in the Moodle Marketplace and check the versions it supports.';
-$string['action_check_updates_now'] = 'Check for updates now, then run this scan again.';
+$string['action_check_updates_now'] = 'Use Site administration > Notifications to check for updates, then run this scan again.';
 $string['action_install_dependency'] = 'Install (or update) the required plugin before upgrading.';
 $string['action_install_php_extension'] = 'Install the PHP extension {$a->extension} on the server before upgrading Moodle.';
 $string['action_move_plugin_to_public'] = 'Move the plugin folder into the new {$a->newpath} location before upgrading.';
@@ -149,7 +149,7 @@ $string['finding_declared_minimum_only'] = 'This plugin only declares a minimum 
 $string['finding_declared_requires_newer_core'] = 'The plugin needs Moodle {$a->requires} or newer, but the target is Moodle {$a->target}.';
 $string['finding_declared_support_range'] = 'The plugin does not list Moodle {$a->target} in its supported version range. Test it on staging or check with the developer.';
 $string['finding_declared_unknown'] = 'The plugin does not declare which Moodle versions it supports, so this could not be verified.';
-$string['finding_update_information_missing'] = 'Update information is missing. Click Check for updates now.';
+$string['finding_update_information_missing'] = 'Moodle has not returned plugin update information yet. Check for updates in Site administration > Notifications, then run this scan again.';
 $string['finding_dependency_missing'] = 'The plugin needs "{$a->dependency}", which is not installed on this site.';
 $string['finding_dependency_outdated'] = 'The plugin needs version {$a->required} of "{$a->dependency}", but only {$a->installed} is installed.';
 $string['finding_legacy_location'] = 'This plugin is still stored in the old "{$a->oldpath}" location. Moodle 5.1 and later only read plugins from "{$a->newpath}", so it would disappear after the upgrade.';

@@ -32,7 +32,7 @@ use tool_upgradeguard\local\scan_context;
 use tool_upgradeguard\local\target;
 
 /**
- * Tests the three update information scenarios: empty, switched off, and present.
+ * Tests remote-check configuration and core plugin-update response states.
  *
  * @package    tool_upgradeguard
  * @copyright  2026 Waqas Habib
@@ -81,22 +81,55 @@ final class update_checker_test extends advanced_testcase {
     /**
      * Switched on with no answers: reported as missing information.
      *
-     * Core cannot tell "nothing newer exists" apart from "no data was ever
-     * fetched" (available_updates() answers null for both), so an empty result
-     * set is surfaced for the administrator to resolve.
+     * With no valid core response stored, an empty result is surfaced for the
+     * administrator to resolve.
      *
      * @covers \tool_upgradeguard\local\collector\update_checker::is_information_available
      */
     public function test_switched_on_without_answers_is_missing_information(): void {
         $this->resetAfterTest();
         set_config('checkremote', 1, 'tool_upgradeguard');
+        set_config('recentresponse', '', 'core_plugin');
+        set_config('recentfetch', 0, 'core_plugin');
+        \core\update\checker::reset_caches(true);
 
-        $checker = new update_checker();
-        $this->assertTrue($checker->is_enabled());
-        $this->assertFalse($checker->is_information_available([]));
+        try {
+            $checker = new update_checker();
+            $this->assertTrue($checker->is_enabled());
+            $this->assertFalse($checker->is_information_available([]));
 
-        $context = $this->make_context([], $checker->is_information_available([]));
-        $this->assertTrue((new update_information_check())->is_applicable(null, $context));
+            $context = $this->make_context([], $checker->is_information_available([]));
+            $this->assertTrue((new update_information_check())->is_applicable(null, $context));
+        } finally {
+            \core\update\checker::reset_caches(true);
+        }
+    }
+
+    /**
+     * A valid core update response with no newer versions is not missing data.
+     *
+     * @covers \tool_upgradeguard\local\collector\update_checker::is_information_available
+     */
+    public function test_switched_on_with_a_valid_empty_core_response_has_information(): void {
+        $this->resetAfterTest();
+        set_config('checkremote', 1, 'tool_upgradeguard');
+        set_config('recentresponse', json_encode([
+            'status' => 'OK',
+            'apiver' => '1.3',
+            'forbranch' => moodle_major_version(true),
+            'updates' => [],
+        ]), 'core_plugin');
+        set_config('recentfetch', time(), 'core_plugin');
+        \core\update\checker::reset_caches(true);
+
+        try {
+            $checker = new update_checker();
+            $this->assertTrue($checker->is_information_available([]));
+            $context = $this->make_context([], $checker->is_information_available([]));
+            $this->assertFalse((new update_information_check())->is_applicable(null, $context));
+        } finally {
+            \core\update\checker::reset_caches(true);
+        }
     }
 
     /**
