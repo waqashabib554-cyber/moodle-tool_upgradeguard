@@ -1,0 +1,116 @@
+{{!
+    Printable report of one scan (spec Screen 5).
+
+    The title is an h2: Moodle prints the page heading from the page heading that
+    report.php sets, and that is the one h1 of the document.
+
+    Context:
+    * reportheading, meta, currentversion, targetversion, verdict, verdictclass,
+      score, hasscore, readinessscore, backurl
+    * blockers rows, environment keys (shared template), plugingroups,
+      move list keys (shared template), checklist keys (shared template).
+    * disclaimer, datasetversion, generated, haswrongresult, wrongresulturl.
+}}
+<div class="tool-upgradeguard tool-upgradeguard-report" id="upgradeguard-report">
+    <div class="upgradeguard-pagehead d-flex justify-content-between align-items-start">
+        <div>
+            <h2 class="upgradeguard-pagehead-title">{{reportheading}}</h2>
+            <p class="upgradeguard-pagehead-meta text-muted mb-0">{{meta}}</p>
+        </div>
+        <div class="text-end upgradeguard-print-hide">
+            <button type="button" class="btn btn-primary btn-sm"
+                    onclick="window.print(); return false;">{{#str}}reportprint, tool_upgradeguard{{/str}}</button>
+            <a class="btn btn-outline-secondary btn-sm" href="{{backurl}}">{{#str}}backtodashboard, tool_upgradeguard{{/str}}</a>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <p class="mb-1">{{currentversion}} &rarr; {{targetversion}}</p>
+            <span class="badge upgradeguard-verdict upgradeguard-verdict-{{verdictclass}}">{{verdict}}</span>
+            {{#hasscore}}
+            <span class="upgradeguard-score upgradeguard-score-{{verdictclass}} display-6 ms-3">{{score}}</span>
+            <span class="text-muted">{{readinessscore}}</span>
+            {{/hasscore}}
+        </div>
+    </div>
+
+    {{#hasblockers}}
+    <h2 class="h4 mt-3">{{blockersheading}}</h2>
+    <div class="table-responsive">
+        <table class="table table-sm generaltable">
+            <thead>
+                <tr>
+                    <th scope="col">{{#str}}col_component, tool_upgradeguard{{/str}}</th>
+                    <th scope="col">{{#str}}col_findings, tool_upgradeguard{{/str}}</th>
+                    <th scope="col">{{#str}}col_confidence, tool_upgradeguard{{/str}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#blockers}}
+                <tr>
+                    <td>{{scope}}</td>
+                    <td>{{message}}</td>
+                    <td><span class="badge bg-secondary">{{confidencelabel}}</span></td>
+                </tr>
+                {{/blockers}}
+            </tbody>
+        </table>
+    </div>
+    {{/hasblockers}}
+
+    {{> tool_upgradeguard/environment }}
+
+    <h2 class="h4 mt-3">{{plugingroupsheading}}</h2>
+    {{#plugingroups}}
+    <h3 class="h5 mt-3"><span class="badge bg-{{statusclass}}">{{statuslabel}}</span> ({{count}})</h3>
+    <div class="table-responsive">
+        <table class="table table-sm generaltable">
+            <thead>
+                <tr>
+                    <th scope="col">{{#str}}col_component, tool_upgradeguard{{/str}}</th>
+                    <th scope="col">{{#str}}col_installedversion, tool_upgradeguard{{/str}}</th>
+                    <th scope="col">{{#str}}col_usage, tool_upgradeguard{{/str}}</th>
+                    <th scope="col">{{#str}}col_status, tool_upgradeguard{{/str}}</th>
+                    <th scope="col">{{#str}}col_findings, tool_upgradeguard{{/str}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#rows}}
+                <tr>
+                    <td>
+                        <div>{{displayname}}</div>
+                        <div class="text-muted small">{{component}}</div>
+                    </td>
+                    <td>{{version}}</td>
+                    <td>{{usage}}</td>
+                    <td><span class="badge bg-{{statusclass}}">{{statuslabel}}</span></td>
+                    <td>
+                        {{#findings}}
+                        <div class="small">{{message}} <span class="badge bg-secondary">{{confidencelabel}}</span></div>
+                        {{/findings}}
+                    </td>
+                </tr>
+                {{/rows}}
+            </tbody>
+        </table>
+    </div>
+    {{/plugingroups}}
+
+    {{#hasmovelist}}
+    {{> tool_upgradeguard/movelist }}
+    {{/hasmovelist}}
+
+    {{#haschecklist}}
+    {{> tool_upgradeguard/checklist }}
+    {{/haschecklist}}
+
+    <div class="card mt-3">
+        <div class="card-body small text-muted">
+            <p class="mb-1">{{disclaimer}}</p>
+            <p class="mb-1">{{datasetversion}}</p>
+            <p class="mb-1">{{generated}}</p>
+            {{#haswrongresult}}<p class="mb-0"><a href="{{wrongresulturl}}">{{wrongresultlabel}}</a></p>{{/haswrongresult}}
+        </div>
+    </div>
+</div>

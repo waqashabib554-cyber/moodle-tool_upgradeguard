@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="admin/tool/upgradeguard/db" VERSION="2026092500" COMMENT="XMLDB file for Moodle tool/upgradeguard"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="tool_upgradeguard_scan" COMMENT="One record per Upgrade Guard scan.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="currentversion" TYPE="char" LENGTH="100" NOTNULL="true" DEFAULT="" SEQUENCE="false" COMMENT="Moodle release of the site that was scanned"/>
+        <FIELD NAME="currentbranch" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Moodle branch of the site that was scanned, eg 502"/>
+        <FIELD NAME="phpversion" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="PHP version the scan was queued with, eg 8.3.30"/>
+        <FIELD NAME="dbvendor" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="Database vendor of the site, eg mysql, mariadb or postgres"/>
+        <FIELD NAME="dbversion" TYPE="char" LENGTH="30" NOTNULL="false" SEQUENCE="false" COMMENT="Version of the database server, eg 8.4.3"/>
+        <FIELD NAME="phpextensions" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="JSON list of the loaded PHP extensions when the scan was queued"/>
+        <FIELD NAME="targetversion" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="" SEQUENCE="false" COMMENT="Moodle version the scan was run against, eg 5.2"/>
+        <FIELD NAME="targetbranch" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Moodle branch that was scanned against, eg 502"/>
+        <FIELD NAME="datasetversion" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Version of the rule dataset used by the scan"/>
+        <FIELD NAME="status" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="queued" SEQUENCE="false" COMMENT="queued, running, finished or failed"/>
+        <FIELD NAME="stage" TYPE="char" LENGTH="100" NOTNULL="true" DEFAULT="" SEQUENCE="false" COMMENT="Language string key of the stage the scan is in"/>
+        <FIELD NAME="progress" TYPE="int" LENGTH="3" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Progress of the scan, 0 to 100"/>
+        <FIELD NAME="score" TYPE="int" LENGTH="3" NOTNULL="false" SEQUENCE="false" COMMENT="Readiness score, 0 to 100"/>
+        <FIELD NAME="verdict" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="go, careful or stop"/>
+        <FIELD NAME="plugincount" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="blockercount" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="cautioncount" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="unknowncount" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="environmentblockercount" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Site-wide environment blockers found by the scan"/>
+        <FIELD NAME="environmentcautioncount" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Site-wide environment cautions found by the scan"/>
+        <FIELD NAME="errormessage" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Friendly message shown when the scan failed"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The administrator who started the scan"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timestarted" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timefinished" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="status-timecreated" UNIQUE="false" FIELDS="status, timecreated"/>
+        <INDEX NAME="timecreated" UNIQUE="false" FIELDS="timecreated"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="tool_upgradeguard_plugin" COMMENT="One record per plugin found by a scan.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="scanid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The scan this plugin was found in"/>
+        <FIELD NAME="component" TYPE="char" LENGTH="100" NOTNULL="true" DEFAULT="" SEQUENCE="false" COMMENT="Frankenstyle component name, eg mod_forum"/>
+        <FIELD NAME="plugintype" TYPE="char" LENGTH="50" NOTNULL="true" DEFAULT="" SEQUENCE="false"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="100" NOTNULL="true" DEFAULT="" SEQUENCE="false" COMMENT="Plugin name within its type, eg forum"/>
+        <FIELD NAME="displayname" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT="" SEQUENCE="false"/>
+        <FIELD NAME="versiondisk" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="" SEQUENCE="false"/>
+        <FIELD NAME="versiondb" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="" SEQUENCE="false"/>
+        <FIELD NAME="pluginrelease" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Declared release of the plugin on disk"/>
+        <FIELD NAME="versionrequires" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="Minimum Moodle version declared by the plugin"/>
+        <FIELD NAME="supportedlist" TYPE="char" LENGTH="50" NOTNULL="false" SEQUENCE="false" COMMENT="Branches declared in plugin->supported, eg 404-502"/>
+        <FIELD NAME="incompatiblebranch" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="First branch the plugin declares itself incompatible with"/>
+        <FIELD NAME="isstandard" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="installed" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="currentpath" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT="" SEQUENCE="false" COMMENT="Relative path the plugin is stored in right now"/>
+        <FIELD NAME="newpath" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT="" SEQUENCE="false" COMMENT="Relative path the plugin has to live in after the upgrade"/>
+        <FIELD NAME="status" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="unknown" SEQUENCE="false" COMMENT="ready, update, caution, blocker or unknown"/>
+        <FIELD NAME="usagecount" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="How many places on the site use the plugin, null when unknown"/>
+        <FIELD NAME="usagedetail" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="JSON with the breakdown of the usage count"/>
+        <FIELD NAME="updateavailable" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="updateversion" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="updaterelease" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="scanid" TYPE="foreign" FIELDS="scanid" REFTABLE="tool_upgradeguard_scan" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="scanid-component" UNIQUE="false" FIELDS="scanid, component"/>
+        <INDEX NAME="component" UNIQUE="false" FIELDS="component"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="tool_upgradeguard_finding" COMMENT="One record per finding produced by a scan.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="scanid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="pluginid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="tool_upgradeguard_plugin id, 0 for site wide findings"/>
+        <FIELD NAME="checkkey" TYPE="char" LENGTH="50" NOTNULL="true" DEFAULT="" SEQUENCE="false" COMMENT="The check that produced this finding"/>
+        <FIELD NAME="severity" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="info" SEQUENCE="false" COMMENT="blocker, caution or info"/>
+        <FIELD NAME="messagekey" TYPE="char" LENGTH="100" NOTNULL="true" DEFAULT="" SEQUENCE="false" COMMENT="Language string key of the message shown to the admin"/>
+        <FIELD NAME="params" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="JSON with the parameters of the message"/>
+        <FIELD NAME="confidence" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="medium" SEQUENCE="false" COMMENT="low, medium or high"/>
+        <FIELD NAME="fixedbyupdate" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether updating the plugin is expected to fix it"/>
+        <FIELD NAME="actionkey" TYPE="char" LENGTH="100" NOTNULL="true" DEFAULT="" SEQUENCE="false" COMMENT="Language string key of the suggested action"/>
+        <FIELD NAME="docsurl" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="scanid" TYPE="foreign" FIELDS="scanid" REFTABLE="tool_upgradeguard_scan" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="scanid-pluginid" UNIQUE="false" FIELDS="scanid, pluginid"/>
+        <INDEX NAME="checkkey" UNIQUE="false" FIELDS="checkkey"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>

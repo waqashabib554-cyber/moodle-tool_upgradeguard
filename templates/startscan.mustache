@@ -1,0 +1,17 @@
+{{!
+    The "Start scan" form, and the line that points at it.
+
+    This is a partial because the form is needed in two places. The form used to
+    sit inside the "hasscan" section only, so a site that had never been scanned
+    was told to "start one" while the page offered no way to do it. The guidance
+    line is guarded by the same conditions as the form itself, so the page can
+    never promise a button that is not on it.
+
+    Context: canrunscan, hastargets, formhtml, welcomestartscan.
+}}
+{{#canrunscan}}
+{{#hastargets}}
+<p class="mb-2">{{welcomestartscan}}</p>
+<div class="mt-3">{{{formhtml}}}</div>
+{{/hastargets}}
+{{/canrunscan}}

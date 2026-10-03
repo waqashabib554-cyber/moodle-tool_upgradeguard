@@ -1,0 +1,37 @@
+name: Validate target rules
+
+on:
+  push:
+    paths:
+      - "data/targets.json"
+      - "tools/validate_target_rules.py"
+      - ".github/workflows/validate-target-rules.yml"
+  pull_request:
+    paths:
+      - "data/targets.json"
+      - "tools/validate_target_rules.py"
+      - ".github/workflows/validate-target-rules.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Validate target dataset
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [ -n "$BASE_SHA" ] && git cat-file -e "$BASE_SHA:data/targets.json" 2>/dev/null; then
+            git show "$BASE_SHA:data/targets.json" > "$RUNNER_TEMP/previous-targets.json"
+            python tools/validate_target_rules.py data/targets.json --previous "$RUNNER_TEMP/previous-targets.json"
+          else
+            python tools/validate_target_rules.py data/targets.json
+          fi

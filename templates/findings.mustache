@@ -1,0 +1,40 @@
+{{!
+    Table of findings.
+
+    Expects the current context to have a "findings" list, where every finding
+    has: message, action, severity, severityclass, confidence.
+
+    The three columns are headed, so that a screen reader announces what each
+    cell holds instead of reading three unlabelled cells in a row.
+
+    Bootstrap's table-responsive wrapper keeps the table usable on narrow
+    screens instead of pushing the whole page sideways.
+}}
+<div class="table-responsive">
+    <table class="table table-sm mb-0">
+        <thead>
+            <tr>
+                <th scope="col">{{#str}}col_severity, tool_upgradeguard{{/str}}</th>
+                <th scope="col">{{#str}}col_findings, tool_upgradeguard{{/str}}</th>
+                <th scope="col">{{#str}}col_confidence, tool_upgradeguard{{/str}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#findings}}
+            <tr>
+                <td class="text-nowrap align-top">
+                    <span class="badge bg-{{severityclass}}">{{severity}}</span>
+                </td>
+                <td>
+                    <div>{{message}}</div>
+                    <div class="text-muted small">
+                        {{#hasactionurl}}<a href="{{actionurl}}">{{action}}</a>{{/hasactionurl}}
+                        {{^hasactionurl}}{{action}}{{/hasactionurl}}
+                    </div>
+                </td>
+                <td class="text-nowrap text-muted small align-top">{{confidence}}</td>
+            </tr>
+            {{/findings}}
+        </tbody>
+    </table>
+</div>

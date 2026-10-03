@@ -1,0 +1,33 @@
+{{!
+    Shared page header: one muted line of context and the way back to the
+    dashboard.
+
+    The title of the page is NOT here. Moodle prints the page heading itself,
+    as the one top level heading of the document, and a second one inside the
+    content would repeat it and leave two h1 on the page. Every page of this
+    plugin therefore sets its own $PAGE heading, and this partial only carries
+    what the theme cannot know: the scanned versions, the verdict, the score
+    and the button.
+
+    The results table and the scan history both start with this partial, so
+    the two pages cannot drift apart in badges, buttons or spacing. The
+    matching rules live in styles.css under .upgradeguard-pagehead.
+
+    Context:
+    * backurl: where the secondary button goes.
+    * currentversion, targetversion: optional, the scanned pair (results page).
+    * verdict, verdictclass: optional badge with the verdict of the scan.
+    * score, hasscore: optional readiness score of the scan.
+    * meta: optional plain text line, for example the number of recorded scans.
+}}
+<div class="upgradeguard-pagehead d-flex justify-content-between align-items-start">
+    <p class="upgradeguard-pagehead-meta text-muted mb-0">
+        {{#currentversion}}<span>{{currentversion}} &rarr; {{targetversion}}</span>{{/currentversion}}
+        {{#meta}}<span>{{meta}}</span>{{/meta}}
+        {{#verdict}}<span class="badge upgradeguard-verdict upgradeguard-verdict-{{verdictclass}}">{{verdict}}</span>{{/verdict}}
+        {{#hasscore}}<span class="upgradeguard-pagehead-score upgradeguard-score upgradeguard-score-{{verdictclass}}">{{score}}</span>{{/hasscore}}
+    </p>
+    {{#backurl}}
+    <a class="btn btn-outline-secondary btn-sm" href="{{backurl}}">{{#str}}backtodashboard, tool_upgradeguard{{/str}}</a>
+    {{/backurl}}
+</div>

@@ -1,0 +1,110 @@
+{{!
+    Results table of one scan: search, filters, sortable headers,
+    server side pagination and Bootstrap collapse for the findings.
+
+    Context:
+    * the shared pagehead partial: pageheading, backurl, currentversion,
+      targetversion, verdict, verdictclass, score, hasscore
+    * formaction, reseturl
+    * search, statusoptions, typeoptions, inuse, sortby, dir
+    * sortname, sorttype, sortstatus (url and label of each header link)
+    * resultcount, plugins (rows with collapseable findings), noresults
+    * haspagination, pageof, paginationlinks
+}}
+<div class="tool-upgradeguard tool-upgradeguard-results" id="upgradeguard-results">
+    {{> tool_upgradeguard/pagehead }}
+
+    <form method="get" action="{{formaction}}" class="row g-2 align-items-end mb-3" id="upgradeguard-results-filters">
+        <input type="hidden" name="id" value="{{scanid}}">
+        <input type="hidden" name="sortby" value="{{sortby}}">
+        <input type="hidden" name="dir" value="{{dir}}">
+        <div class="col-md-4">
+            <label class="form-label" for="ug-search">{{#str}}searchplugins, tool_upgradeguard{{/str}}</label>
+            <input type="text" class="form-control" name="search" id="ug-search" value="{{search}}">
+        </div>
+        <div class="col-md-2">
+            <label class="form-label" for="ug-status">{{#str}}col_status, tool_upgradeguard{{/str}}</label>
+            <select class="form-select" name="status" id="ug-status">
+                {{#statusoptions}}<option value="{{value}}" {{#selected}}selected{{/selected}}>{{label}}</option>{{/statusoptions}}
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label" for="ug-type">{{#str}}col_type, tool_upgradeguard{{/str}}</label>
+            <select class="form-select" name="type" id="ug-type">
+                {{#typeoptions}}<option value="{{value}}" {{#selected}}selected{{/selected}}>{{label}}</option>{{/typeoptions}}
+            </select>
+        </div>
+        <div class="col-md-2">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="1" name="inuse" id="ug-inuse" {{#inuse}}checked{{/inuse}}>
+                <label class="form-check-label" for="ug-inuse">{{#str}}filterinuse, tool_upgradeguard{{/str}}</label>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary btn-sm me-1">{{#str}}applyfilters, tool_upgradeguard{{/str}}</button>
+            <a class="btn btn-outline-secondary btn-sm" href="{{reseturl}}">{{#str}}filterreset, tool_upgradeguard{{/str}}</a>
+        </div>
+    </form>
+
+    <p>{{resultcount}}</p>
+
+    {{^hasplugins}}
+    <div class="alert alert-info">{{noresults}}</div>
+    {{/hasplugins}}
+
+    {{#hasplugins}}
+    <div class="table-responsive">
+        <table class="table table-sm generaltable">
+            <thead>
+                <tr>
+                    <th scope="col">{{#sortname}}<a class="text-decoration-none" href="{{url}}">{{label}}</a>{{/sortname}}</th>
+                    <th scope="col">{{#sorttype}}<a class="text-decoration-none" href="{{url}}">{{label}}</a>{{/sorttype}}</th>
+                    <th scope="col">{{#sortstatus}}<a class="text-decoration-none" href="{{url}}">{{label}}</a>{{/sortstatus}}</th>
+                    <th scope="col">{{#str}}col_installedversion, tool_upgradeguard{{/str}}</th>
+                    <th scope="col">{{#str}}col_usage, tool_upgradeguard{{/str}}</th>
+                    <th scope="col">{{#str}}col_findings, tool_upgradeguard{{/str}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#plugins}}
+                <tr>
+                    <td>
+                        <div>{{displayname}}</div>
+                        <div class="text-muted small">{{component}}</div>
+                    </td>
+                    <td>{{type}}</td>
+                    <td><span class="badge bg-{{statusclass}}">{{statuslabel}}</span></td>
+                    <td>{{version}}</td>
+                    <td>{{usage}}</td>
+                    <td>
+                        {{#hasfindings}}
+                        <a class="upgradeguard-disclosure-link d-inline-flex align-items-center gap-1"
+                           data-bs-toggle="collapse" href="#ugf-{{component}}" role="button"
+                           aria-expanded="false" aria-controls="ugf-{{component}}">
+                            {{findingcount}} {{#str}}showfindings, tool_upgradeguard{{/str}}
+                        </a>
+                        {{/hasfindings}}
+                        {{^hasfindings}}0{{/hasfindings}}
+                    </td>
+                </tr>
+                {{#hasfindings}}
+                <tr class="collapse" id="ugf-{{component}}">
+                    <td colspan="6" class="p-0 ps-3">{{> tool_upgradeguard/findings }}</td>
+                </tr>
+                {{/hasfindings}}
+                {{/plugins}}
+            </tbody>
+        </table>
+    </div>
+
+    {{#haspagination}}
+    <p>
+        <span class="me-2">{{pageof}}</span>
+        {{#paginationlinks}}
+        <a class="btn btn-outline-secondary btn-sm {{#iscurrent}}active{{/iscurrent}}"
+           href="{{url}}" {{#iscurrent}}aria-current="page"{{/iscurrent}}>{{page}}</a>
+        {{/paginationlinks}}
+    </p>
+    {{/haspagination}}
+    {{/hasplugins}}
+</div>

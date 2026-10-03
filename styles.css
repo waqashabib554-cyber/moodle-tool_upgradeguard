@@ -1,0 +1,192 @@
+/*
+ * Upgrade Guard - shared page styling.
+ *
+ * Everything else on these pages comes from Boost and Bootstrap; these few
+ * rules only cover what the components do not provide. Every page carries the
+ * same .tool-upgradeguard container class (the page specific classes such as
+ * .tool-upgradeguard-results stay on top of it), so every selector here scopes
+ * to the plugin container and reaches all of its pages: the file is safe to
+ * load site wide.
+ */
+
+.tool-upgradeguard {
+    --ug-accent: var(--bs-link-color);
+    --ug-accent-bg-subtle: var(--bs-primary-bg-subtle);
+    --ug-accent-border-subtle: var(--bs-primary-border-subtle);
+    --ug-border: var(--bs-border-color);
+}
+
+.tool-upgradeguard .upgradeguard-tabs {
+    flex-wrap: wrap;
+    gap: var(--bs-spacer-1);
+}
+
+.tool-upgradeguard .upgradeguard-tabs .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--bs-spacer-1);
+    color: var(--bs-secondary-color);
+    border-color: var(--ug-border);
+}
+
+.tool-upgradeguard .upgradeguard-tabs .nav-link:hover,
+.tool-upgradeguard .upgradeguard-tabs .nav-link:focus-visible {
+    color: var(--ug-accent);
+    background-color: var(--ug-accent-bg-subtle);
+    border-color: var(--ug-accent-border-subtle);
+}
+
+.tool-upgradeguard .upgradeguard-tabs .nav-link.active,
+.tool-upgradeguard .upgradeguard-tabs .nav-link.active:hover {
+    color: var(--ug-accent);
+    background-color: var(--ug-accent-bg-subtle);
+    border-color: var(--ug-accent-border-subtle);
+}
+
+.tool-upgradeguard .upgradeguard-verdict {
+    --ug-verdict-bg: var(--bs-secondary-bg-subtle);
+    --ug-verdict-color: var(--bs-secondary-text-emphasis);
+    --ug-verdict-border: var(--bs-secondary-border-subtle);
+    color: var(--ug-verdict-color);
+    background-color: var(--ug-verdict-bg);
+    border: var(--bs-border-width) solid var(--ug-verdict-border);
+}
+
+.tool-upgradeguard .upgradeguard-verdict-success {
+    --ug-verdict-bg: var(--bs-success-bg-subtle);
+    --ug-verdict-color: var(--bs-success-text-emphasis);
+    --ug-verdict-border: var(--bs-success-border-subtle);
+}
+
+.tool-upgradeguard .upgradeguard-verdict-warning {
+    --ug-verdict-bg: var(--bs-warning-bg-subtle);
+    --ug-verdict-color: var(--bs-warning-text-emphasis);
+    --ug-verdict-border: var(--bs-warning-border-subtle);
+}
+
+.tool-upgradeguard .upgradeguard-verdict-danger {
+    --ug-verdict-bg: var(--bs-danger-bg-subtle);
+    --ug-verdict-color: var(--bs-danger-text-emphasis);
+    --ug-verdict-border: var(--bs-danger-border-subtle);
+}
+
+.tool-upgradeguard .upgradeguard-score {
+    color: var(--bs-body-color);
+    font-variant-numeric: tabular-nums;
+}
+
+.tool-upgradeguard .upgradeguard-score-success {
+    color: var(--bs-success-text-emphasis);
+}
+
+.tool-upgradeguard .upgradeguard-score-warning {
+    color: var(--bs-warning-text-emphasis);
+}
+
+.tool-upgradeguard .upgradeguard-score-danger {
+    color: var(--bs-danger-text-emphasis);
+}
+
+.tool-upgradeguard .upgradeguard-score-secondary {
+    color: var(--bs-secondary-text-emphasis);
+}
+
+/* The verdict card of the overview. It has to stay visually distinct from the
+   cards around it on a phone, where the tabs stack and the card is read on its
+   own. */
+.tool-upgradeguard .upgradeguard-summary {
+    border-width: var(--bs-border-width);
+}
+
+/* The two rows of the verdict card. A flex item will not shrink below the
+   width of its longest unbreakable text by default, so a long version pair, a
+   long "/ 100 Readiness score" label or a long summary sentence used to push
+   past the right edge of the card and got clipped. Letting the items shrink and
+   letting their text wrap inside the space they are given keeps every word
+   readable at any width, and the rows still wrap onto a second line on a
+   phone. The score block keeps the number and its "/ 100" label together. */
+.tool-upgradeguard .upgradeguard-summary .upgradeguard-summary-row > * {
+    min-width: 0;
+}
+
+.tool-upgradeguard .upgradeguard-summary .upgradeguard-summary-score {
+    flex-shrink: 0;
+}
+
+.tool-upgradeguard .upgradeguard-disclosure-link {
+    color: var(--ug-accent);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: var(--bs-border-width);
+    text-underline-offset: var(--bs-spacer-1);
+}
+
+.tool-upgradeguard .upgradeguard-disclosure-link:hover,
+.tool-upgradeguard .upgradeguard-disclosure-link:focus-visible {
+    color: var(--ug-accent);
+}
+
+.tool-upgradeguard .upgradeguard-actions .btn {
+    margin-right: var(--bs-spacer-1);
+    margin-bottom: var(--bs-spacer-1);
+}
+
+/* Every page starts with the shared header partial (templates/pagehead), so
+   the title, the line under it and the back button are spaced the same on the
+   dashboard, the results table and the history page. */
+.tool-upgradeguard .upgradeguard-pagehead {
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.tool-upgradeguard .upgradeguard-pagehead-title {
+    font-size: 1.75rem;
+    margin-bottom: .25rem;
+}
+
+.tool-upgradeguard .upgradeguard-pagehead-meta > span + span {
+    margin-left: .5rem;
+}
+
+.tool-upgradeguard .upgradeguard-pagehead-score {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Bootstrap makes wide tables scroll sideways on narrow screens. When the
+   page is printed there is nothing to scroll, so the wrapper has to let the
+   table overflow instead of clipping it. */
+@media print {
+    .tool-upgradeguard .table-responsive {
+        overflow-x: visible;
+    }
+}
+
+/* The printable report. It is an ordinary page of the plugin, so the theme and
+   the shared rules above already style it; what is left is what only matters on
+   paper. The navigation, the page header and every button are screen furniture
+   and would only waste a sheet, and a card or a table row that breaks across a
+   page is unreadable. */
+@media print {
+    .tool-upgradeguard-report .navbar,
+    .tool-upgradeguard-report nav,
+    .tool-upgradeguard-report #page-header,
+    .tool-upgradeguard-report #page-footer,
+    .tool-upgradeguard-report .btn,
+    .tool-upgradeguard-report .upgradeguard-print-hide {
+        display: none !important;
+    }
+
+    .tool-upgradeguard-report tr,
+    .tool-upgradeguard-report .card,
+    .tool-upgradeguard-report li {
+        page-break-inside: avoid;
+    }
+}
+
+@media print {
+    .tool-upgradeguard .badge,
+    .tool-upgradeguard th {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}

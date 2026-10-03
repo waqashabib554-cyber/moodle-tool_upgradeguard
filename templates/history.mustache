@@ -1,0 +1,79 @@
+{{!
+    Scan history page (spec Screen 6): every recorded scan, newest first,
+    with links to its results and report and a POST-only delete form for
+    users with the manage capability.
+
+    Context:
+    * the shared pagehead partial: pageheading, backurl and meta (the number
+      of recorded scans)
+    * hasscans, empty
+    * canmanage, sesskey, deleteurl
+    * scans: rows with scanid, timecreated, targetversion, score, hasscore,
+      verdict, verdictclass, ownername, statuslabel, statusclass,
+      resultsurl and reporturl.
+    * haspagination, pageof, paginationlinks
+}}
+<div class="tool-upgradeguard tool-upgradeguard-history" id="upgradeguard-history">
+    {{> tool_upgradeguard/pagehead }}
+
+    {{^hasscans}}
+    <div class="alert alert-info">{{empty}}</div>
+    {{/hasscans}}
+
+    {{#hasscans}}
+    <div class="table-responsive">
+        <table class="table table-sm generaltable">
+            <thead>
+                <tr>
+                    <th scope="col">{{#str}}col_datecreated, tool_upgradeguard{{/str}}</th>
+                    <th scope="col">{{#str}}targetversion, tool_upgradeguard{{/str}}</th>
+                    <th scope="col">{{#str}}readinessscore, tool_upgradeguard{{/str}}</th>
+                    <th scope="col">{{#str}}verdict, tool_upgradeguard{{/str}}</th>
+                    <th scope="col">{{#str}}historyuser, tool_upgradeguard{{/str}}</th>
+                    <th scope="col">{{#str}}col_status, tool_upgradeguard{{/str}}</th>
+                    <th scope="col">{{#str}}col_action, tool_upgradeguard{{/str}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#scans}}
+                <tr>
+                    <td>{{timecreated}}</td>
+                    <td>{{targetversion}}</td>
+                    <td><span class="upgradeguard-score upgradeguard-score-{{verdictclass}}">{{#hasscore}}{{score}}{{/hasscore}}{{^hasscore}}&ndash;{{/hasscore}}</span></td>
+                    <td><span class="badge upgradeguard-verdict upgradeguard-verdict-{{verdictclass}}">{{verdict}}</span></td>
+                    <td>{{ownername}}</td>
+                    <td><span class="badge bg-{{statusclass}}">{{statuslabel}}</span></td>
+                    <td class="upgradeguard-actions">
+                        <a class="btn btn-outline-secondary btn-sm" href="{{resultsurl}}">{{#str}}viewresults, tool_upgradeguard{{/str}}</a>
+                        <a class="btn btn-outline-secondary btn-sm" href="{{reporturl}}" target="_blank" rel="noopener">{{#str}}printablereport, tool_upgradeguard{{/str}}</a>
+                        {{#canmanage}}
+                        <form method="post" action="{{deleteurl}}" class="d-inline">
+                            <input type="hidden" name="action" value="deletescan">
+                            <input type="hidden" name="scanid" value="{{scanid}}">
+                            <input type="hidden" name="sesskey" value="{{sesskey}}">
+                            <button type="submit" class="btn btn-outline-danger btn-sm"
+                                    data-confirmation="modal"
+                                    data-confirmation-type="delete"
+                                    data-confirmation-title-str='["deletescan", "tool_upgradeguard"]'
+                                    data-confirmation-content-str='["deletescanconfirm", "tool_upgradeguard"]'
+                                    data-confirmation-yes-button-str='["deletescan", "tool_upgradeguard"]'>{{#str}}deletescan, tool_upgradeguard{{/str}}</button>
+                        </form>
+                        {{/canmanage}}
+                    </td>
+                </tr>
+                {{/scans}}
+            </tbody>
+        </table>
+    </div>
+
+    {{#haspagination}}
+    <p>
+        <span class="me-2">{{pageof}}</span>
+        {{#paginationlinks}}
+        <a class="btn btn-outline-secondary btn-sm {{#iscurrent}}active{{/iscurrent}}"
+           href="{{url}}" {{#iscurrent}}aria-current="page"{{/iscurrent}}>{{page}}</a>
+        {{/paginationlinks}}
+    </p>
+    {{/haspagination}}
+    {{/hasscans}}
+</div>

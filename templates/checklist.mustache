@@ -1,0 +1,28 @@
+{{!
+    Pre-upgrade checklist card of the dashboard (spec Section 6.6).
+
+    Context:
+    * checklistheading, checklistnote
+    * checklistitems: rows with key, label, detail and hasdetail. The
+      checkboxes are plain UI state, nothing is stored, so they carry a name
+      for form semantics but no form ever submits them. The detail line sits
+      inside the <label> so that clicking it toggles the box as well.
+}}
+<div class="card mb-3" id="upgradeguard-checklist">
+    <div class="card-header">{{checklistheading}}</div>
+    <div class="card-body p-0">
+        <p class="px-3 pt-3 mb-2 text-muted small">{{checklistnote}}</p>
+        <ul class="list-unstyled px-3 pb-3 mb-0">
+        {{#checklistitems}}
+            <li class="form-check py-1">
+                <input class="form-check-input" type="checkbox" name="checklist[{{key}}]" value="1"
+                       id="upgradeguard-check-{{key}}">
+                <label class="form-check-label" for="upgradeguard-check-{{key}}">
+                    {{label}}
+                    {{#hasdetail}}<span class="d-block small text-muted">{{detail}}</span>{{/hasdetail}}
+                </label>
+            </li>
+        {{/checklistitems}}
+        </ul>
+    </div>
+</div>

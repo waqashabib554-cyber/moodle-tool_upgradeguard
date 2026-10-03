@@ -1,0 +1,61 @@
+{{!
+    Move list card of the dashboard (Check E, targets that use the public layout).
+
+    Context:
+    * moveheading, movenote, movesummary, movedisclaimer
+    * hasmoves: true when at least one plugin still has to move. The table, the
+      commands and the CSV are the copy-paste material, so they only render
+      when there is something to copy; a scan where nothing has to move stays a
+      short card instead of listing every plugin twice.
+    * moveplugins: rows with component, type, currentpath, newpath, hasmove,
+      statuslabel and statusclass.
+    * movecsvtext, movecommandstext, hasmovecommands, movenocommands
+}}
+<div class="card mb-3" id="upgradeguard-movelist">
+    <div class="card-header">{{moveheading}}</div>
+    <div class="card-body p-0">
+        <p class="px-3 pt-3 mb-1 text-muted small">{{movenote}}</p>
+        <p class="px-3 mb-2">{{movesummary}}</p>
+        {{#hasmoves}}
+        <div class="table-responsive">
+            <table class="table table-sm mb-0 generaltable">
+                <thead>
+                    <tr>
+                        <th scope="col">{{#str}}col_component, tool_upgradeguard{{/str}}</th>
+                        <th scope="col">{{#str}}col_type, tool_upgradeguard{{/str}}</th>
+                        <th scope="col">{{#str}}movecol_current, tool_upgradeguard{{/str}}</th>
+                        <th scope="col">{{#str}}movecol_new, tool_upgradeguard{{/str}}</th>
+                        <th scope="col">{{#str}}col_status, tool_upgradeguard{{/str}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {{#moveplugins}}
+                    <tr>
+                        <td>{{component}}</td>
+                        <td>{{type}}</td>
+                        <td class="text-break">{{currentpath}}</td>
+                        <td class="text-break">{{newpath}}</td>
+                        <td><span class="badge bg-{{statusclass}}">{{statuslabel}}</span></td>
+                    </tr>
+                {{/moveplugins}}
+                </tbody>
+            </table>
+        </div>
+        <div class="px-3 py-3">
+            {{#hasmovecommands}}
+            <h4 class="h6 mt-0">{{#str}}movecommands, tool_upgradeguard{{/str}}</h4>
+            <pre class="mb-3 p-2 bg-light border rounded"><code>{{movecommandstext}}</code></pre>
+            {{/hasmovecommands}}
+            {{^hasmovecommands}}
+            <p class="text-success mb-3">{{movenocommands}}</p>
+            {{/hasmovecommands}}
+            <h4 class="h6 mt-0">{{#str}}movecsv, tool_upgradeguard{{/str}}</h4>
+            <pre class="mb-0 p-2 bg-light border rounded"><code>{{movecsvtext}}</code></pre>
+        </div>
+        {{/hasmoves}}
+        {{^hasmoves}}
+        <p class="px-3 pb-3 mb-0 text-success">{{movenocommands}}</p>
+        {{/hasmoves}}
+    </div>
+    <div class="card-footer text-muted small">{{movedisclaimer}}</div>
+</div>

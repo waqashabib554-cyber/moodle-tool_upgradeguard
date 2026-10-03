@@ -1,0 +1,218 @@
+{
+    "datasetversion": 5,
+    "updated": "2026-09-25",
+    "source": "Moodle release notes at https://moodledev.io/general/releases/<branch> and the admin/environment.xml shipped with this Moodle build",
+    "statussource": "https://moodledev.io/general/releases (release support table, read 25 September 2026)",
+    "targets": [
+        {
+            "version": "4.4",
+            "branch": 404,
+            "requiresint": 2024042200,
+            "requiresintsource": "verified",
+            "phpmin": "8.1.0",
+            "minsource": "4.1.2",
+            "publiclayout": false,
+            "status": "unsupported",
+            "statussource": "https://moodledev.io/general/releases/4.4 - 'Unsupported, no longer supported and will not receive fixes for security risks'.",
+            "environment": {
+                "php": {
+                    "source": "https://moodledev.io/general/releases/4.4",
+                    "verified": true
+                },
+                "database": {
+                    "source": "https://moodledev.io/general/releases/4.4",
+                    "verified": true,
+                    "exercised": ["mysql"],
+                    "minimums": {
+                        "mariadb": "10.6.7",
+                        "mysql": "8.0",
+                        "postgres": "13",
+                        "mssql": "14.0",
+                        "oracle": "19"
+                    }
+                },
+                "extensions": {
+                    "source": "admin/environment.xml of this build, upstream https://github.com/moodle/moodle/blob/MOODLE_404_STABLE/admin/environment.xml",
+                    "verified": true,
+                    "required": ["iconv", "mbstring", "curl", "openssl", "ctype", "zip", "zlib", "gd", "simplexml", "spl", "pcre", "dom", "xml", "xmlreader", "intl", "json", "hash", "fileinfo", "sodium", "filter"],
+                    "optional": ["tokenizer", "soap", "exif"]
+                }
+            }
+        },
+        {
+            "version": "4.5",
+            "branch": 405,
+            "requiresint": 2024100700,
+            "requiresintsource": "verified",
+            "phpmin": "8.1.0",
+            "minsource": "4.1.2",
+            "publiclayout": false,
+            "status": "security",
+            "statussource": "https://moodledev.io/general/releases - 4.5 is the current LTS, listed as 'Current security': general support ended 6 October 2025, security support ends 4 October 2027.",
+            "environment": {
+                "php": {
+                    "source": "https://moodledev.io/general/releases/4.5",
+                    "verified": true
+                },
+                "database": {
+                    "source": "https://moodledev.io/general/releases/4.5",
+                    "verified": true,
+                    "exercised": ["mysql"],
+                    "minimums": {
+                        "mariadb": "10.6.7",
+                        "mysql": "8.0",
+                        "postgres": "13",
+                        "mssql": "14.0",
+                        "oracle": "19"
+                    }
+                },
+                "extensions": {
+                    "source": "admin/environment.xml of this build, upstream https://github.com/moodle/moodle/blob/MOODLE_405_STABLE/admin/environment.xml",
+                    "verified": true,
+                    "required": ["iconv", "mbstring", "curl", "openssl", "ctype", "zip", "zlib", "gd", "simplexml", "spl", "pcre", "dom", "xml", "xmlreader", "intl", "json", "hash", "fileinfo", "sodium", "filter"],
+                    "optional": ["tokenizer", "soap", "exif"]
+                }
+            }
+        },
+        {
+            "version": "5.0",
+            "branch": 500,
+            "requiresint": 2025041400,
+            "requiresintsource": "verified",
+            "phpmin": "8.2.0",
+            "minsource": "4.2.3",
+            "publiclayout": false,
+            "status": "security",
+            "statussource": "https://moodledev.io/general/releases/5.0 - 'no longer supported for general bug fixes'. General support ended 20 April 2026, security support ends 5 October 2026.",
+            "environment": {
+                "php": {
+                    "source": "https://moodledev.io/general/releases/5.0",
+                    "verified": true
+                },
+                "database": {
+                    "source": "https://moodledev.io/general/releases/5.0",
+                    "verified": true,
+                    "exercised": ["mysql"],
+                    "minimums": {
+                        "mariadb": "10.11.0",
+                        "mysql": "8.4",
+                        "postgres": "14",
+                        "mssql": "14.0",
+                        "auroramysql": "8.0"
+                    }
+                },
+                "extensions": {
+                    "source": "admin/environment.xml of this build, upstream https://github.com/moodle/moodle/blob/MOODLE_500_STABLE/admin/environment.xml",
+                    "verified": true,
+                    "required": ["iconv", "mbstring", "curl", "openssl", "ctype", "zip", "zlib", "gd", "simplexml", "spl", "pcre", "dom", "xml", "xmlreader", "intl", "json", "hash", "fileinfo", "sodium", "filter"],
+                    "optional": ["tokenizer", "soap", "exif"]
+                }
+            }
+        },
+        {
+            "version": "5.1",
+            "branch": 501,
+            "requiresint": 2025100600,
+            "requiresintsource": "verified",
+            "phpmin": "8.2.0",
+            "minsource": "4.2.3",
+            "publiclayout": true,
+            "status": "stable",
+            "statussource": "https://moodledev.io/general/releases - 5.1 is listed as 'Current stable': general support ends 5 October 2026, security support ends 19 April 2027.",
+            "environment": {
+                "php": {
+                    "source": "https://moodledev.io/general/releases/5.1",
+                    "verified": true
+                },
+                "database": {
+                    "source": "https://moodledev.io/general/releases/5.1",
+                    "verified": true,
+                    "exercised": ["mysql"],
+                    "minimums": {
+                        "mariadb": "10.11.0",
+                        "mysql": "8.4",
+                        "postgres": "15",
+                        "mssql": "14.0",
+                        "auroramysql": "8.0"
+                    }
+                },
+                "extensions": {
+                    "source": "admin/environment.xml of this build, upstream https://github.com/moodle/moodle/blob/MOODLE_501_STABLE/admin/environment.xml",
+                    "verified": true,
+                    "required": ["iconv", "mbstring", "curl", "openssl", "ctype", "zip", "zlib", "gd", "simplexml", "spl", "pcre", "dom", "xml", "xmlreader", "intl", "json", "hash", "fileinfo", "sodium", "filter"],
+                    "optional": ["tokenizer", "soap", "exif"]
+                }
+            }
+        },
+        {
+            "version": "5.3",
+            "branch": 503,
+            "requiresint": 2026100500,
+            "requiresintsource": "derived",
+            "phpmin": "8.3.0",
+            "minsource": "4.5",
+            "publiclayout": true,
+            "status": "future",
+            "statussource": "https://moodledev.io/general/releases/5.3 - 'Unreleased, this version of Moodle has not yet been released'. Code freeze 31 August 2026, release date 5 October 2026. 5.3 is the next long term support release.",
+            "environment": {
+                "php": {
+                    "source": "https://moodledev.io/general/releases/5.3",
+                    "verified": true
+                },
+                "database": {
+                    "source": "https://moodledev.io/general/releases/5.3",
+                    "verified": true,
+                    "exercised": [],
+                    "minimums": {
+                        "mariadb": "10.11.0",
+                        "mysql": "8.4",
+                        "postgres": "16",
+                        "mssql": "15.0",
+                        "auroramysql": "8.0"
+                    }
+                },
+                "extensions": {
+                    "source": "Not published yet. Moodle 5.3 is unreleased, so its admin/environment.xml does not exist; the list is carried over unchanged from 5.2, and the 5.3 release notes only state that sodium is required. Re-read https://moodledev.io/general/releases/5.3 after the release and copy admin/environment.xml from the 5.3 branch.",
+                    "verified": false,
+                    "required": ["iconv", "mbstring", "curl", "openssl", "ctype", "zip", "zlib", "gd", "simplexml", "spl", "pcre", "dom", "xml", "xmlreader", "intl", "json", "hash", "fileinfo", "sodium", "filter"],
+                    "optional": ["tokenizer", "soap", "exif"]
+                }
+            }
+        },
+        {
+            "version": "5.2",
+            "branch": 502,
+            "requiresint": 2026042000,
+            "requiresintsource": "verified",
+            "phpmin": "8.3.0",
+            "minsource": "4.4",
+            "publiclayout": true,
+            "status": "stable",
+            "statussource": "https://moodledev.io/general/releases - 5.2 is listed as 'Current stable': general support ends 19 April 2027, security support ends 4 October 2027.",
+            "environment": {
+                "php": {
+                    "source": "https://moodledev.io/general/releases/5.2",
+                    "verified": true
+                },
+                "database": {
+                    "source": "https://moodledev.io/general/releases/5.2",
+                    "verified": true,
+                    "exercised": ["mysql"],
+                    "minimums": {
+                        "mariadb": "10.11.0",
+                        "mysql": "8.4",
+                        "postgres": "16",
+                        "mssql": "15.0",
+                        "auroramysql": "8.0"
+                    }
+                },
+                "extensions": {
+                    "source": "admin/environment.xml of this build, upstream https://github.com/moodle/moodle/blob/MOODLE_502_STABLE/admin/environment.xml",
+                    "verified": true,
+                    "required": ["iconv", "mbstring", "curl", "openssl", "ctype", "zip", "zlib", "gd", "simplexml", "spl", "pcre", "dom", "xml", "xmlreader", "intl", "json", "hash", "fileinfo", "sodium", "filter"],
+                    "optional": ["tokenizer", "soap", "exif"]
+                }
+            }
+        }
+    ]
+}

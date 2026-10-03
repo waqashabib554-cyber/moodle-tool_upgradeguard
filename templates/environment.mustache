@@ -1,0 +1,46 @@
+{{!
+    Environment card of the dashboard.
+
+    Context:
+    * environmentheading, verificationsummary, verificationsources (each with
+      url and label)
+    * environment: rows with label, current, required, status, statusclass,
+      problem, note, source and an unverifiednote.
+
+    The source note of a requirement can be a whole sentence, so the footer only
+    links the addresses and never repeats the note as link text.
+}}
+<div class="card mb-3" id="upgradeguard-environment">
+    <div class="card-header">{{environmentheading}}</div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-sm mb-0 generaltable">
+                <tbody>
+                {{#environment}}
+                    <tr class="{{#hasproblem}}table-danger{{/hasproblem}}">
+                        <td>
+                            <div>{{label}}</div>
+                            {{#hasnote}}<div class="text-muted small">{{note}}</div>{{/hasnote}}
+                        </td>
+                        <td>
+                            {{#hascurrent}}<div>{{current}}</div>{{/hascurrent}}
+                            {{^hascurrent}}<div class="text-muted">{{#str}}env_not_recorded, tool_upgradeguard{{/str}}</div>{{/hascurrent}}
+                        </td>
+                        <td>{{required}}</td>
+                        <td>
+                            <span class="badge bg-{{statusclass}}">{{status}}</span>
+                            {{#hasproblem}}<div class="small mt-1">{{problem}}</div>{{/hasproblem}}
+                        </td>
+                    </tr>
+                {{/environment}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer text-muted small">
+        {{#verificationsummary}}<p class="mb-1">{{verificationsummary}}</p>{{/verificationsummary}}
+        {{#verificationsources}}
+        <p class="mb-1"><a href="{{url}}" rel="nofollow">{{label}}</a></p>
+        {{/verificationsources}}
+    </div>
+</div>
